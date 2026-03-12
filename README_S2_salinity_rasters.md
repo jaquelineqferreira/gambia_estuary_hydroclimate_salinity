@@ -21,7 +21,7 @@ Rationale:
 2. Generate a raster grid over the water domain extent
 3. Project salinity observation points onto the thalweg
 4. Compute the along-thalweg distance for each sample
-5. Interpolate salinity values along the thalweg using linear interpolation
+5. Interpolate salinity values along the thalweg using linear interpolation (NumPy np.interp())
 6. Assign interpolated values to raster cell within the water mask
 7. Export rasters
 8. Preview figures
