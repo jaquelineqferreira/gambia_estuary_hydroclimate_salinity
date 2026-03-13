@@ -1,76 +1,63 @@
-# =========================================================
-# S7_build_d18O_two_endmember_model.py
-#
-# Implements Section 7.1 + 7.2 together:
-#   (1) Computes Δδ18O_EVAP from freshwater endmembers
-#   (2) Uses Δδ18O_EVAP in two-endmember mixing model
-#
-# Produces:
-#   S7_freshwater_evap_enrichment.csv
-#   Supplementary_Table_S8_d18O_linear_mixing_model.csv
-# =========================================================
-
 from pathlib import Path
-import pandas as pd
 import datetime as dt
+import pandas as pd
 
-
-OUT_ROOT = Path(
+# Paths
+ROOT = Path(
 "/Volumes/Helena/DATASETS GAMBIA/Paper Isotopes bckup/"
 "Supplementary/S7"
 )
 
-OUT_DIR = OUT_ROOT / "output"
-DOC_DIR = OUT_ROOT / "documentation"
-OUT_DIR.mkdir(parents=True, exist_ok=True)
-DOC_DIR.mkdir(parents=True, exist_ok=True)
+OUT = ROOT / "output"
+DOC = ROOT / "documentation"
 
-# =========================================================
-# SECTION 7.1 — Freshwater Endmember Shift
-# =========================================================
+OUT.mkdir(parents=True, exist_ok=True)
+DOC.mkdir(parents=True, exist_ok=True)
+
+
+# Input data
 FW = {
 2024: {"Jan": -4.32, "Jun": -1.54},
-2025: {"Jan": -4.79, "Jun": -2.01}
+2025: {"Jan": -4.79, "Jun": -2.01},
 }
 
-evap_records = []
-DELTA_EVAP = {}
+MODEL = [
+{"Station": "Kauur", "Year": 2025, "δ0": -4.57, "δi": -0.31, "δs": 0.17},
+{"Station": "Kauur/Baboon Islands", "Year": 2024, "δ0": -4.32, "δi": 0.30, "δs": 0.17},
+]
 
-for y in FW:
-    d = FW[y]["Jun"] - FW[y]["Jan"]
-    DELTA_EVAP[y] = d
-    evap_records.append({
-        "Year": y,
-        "δ18O_Jan_FW": FW[y]["Jan"],
-        "δ18O_Jun_FW": FW[y]["Jun"],
+
+# Freshwater enrichment 
+evap_rows = []
+delta_evap = {}
+
+for year, v in FW.items():
+    d = v["Jun"] - v["Jan"]
+    delta_evap[year] = d
+    evap_rows.append({
+        "Year": year,
+        "δ18O_Jan_FW": v["Jan"],
+        "δ18O_Jun_FW": v["Jun"],
         "Δδ18O_EVAP": d
     })
 
-evap_df = pd.DataFrame(evap_records)
-evap_df.to_csv(OUT_DIR/"S7_freshwater_evap_enrichment.csv",index=False)
+evap_df = pd.DataFrame(evap_rows)
+evap_csv = OUT / "S7_freshwater_evap_enrichment.csv"
+evap_df.to_csv(evap_csv, index=False)
 
-print("\nΔδ18O_EVAP:")
-print(evap_df)
 
-# =========================================================
-# SECTION 7.2 — Mixing Model (Table 8)
-# =========================================================
-MODEL = [
-{"Station":"Kauur","Year":2025,"δ0":-4.57,"δi":-0.31,"δs":0.17},
-{"Station":"Kauur/Baboon Islands","Year":2024,"δ0":-4.32,"δi":0.30,"δs":0.17}
-]
-
-mix_records = []
+# Mixing model 
+mix_rows = []
 
 for r in MODEL:
-    y = r["Year"]
+
     d_total = r["δi"] - r["δ0"]
-    d_mix = d_total - DELTA_EVAP[y]
+    d_mix = d_total - delta_evap[r["Year"]]
     gamma = d_mix / (r["δs"] - r["δ0"])
 
-    mix_records.append({
+    mix_rows.append({
         "Station": r["Station"],
-        "Year": y,
+        "Year": r["Year"],
         "δ0": r["δ0"],
         "δi": r["δi"],
         "δs": r["δs"],
@@ -79,17 +66,7 @@ for r in MODEL:
         "γISO": gamma
     })
 
-mix_df = pd.DataFrame(mix_records)
-mix_df.to_csv(
-OUT_DIR/"Supplementary_Table_S8_d18O_linear_mixing_model.csv",
-index=False
-)
+mix_df = pd.DataFrame(mix_rows)
 
-print("\nTable 8:")
-print(mix_df)
-
-# =========================================================
-timestamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M")
-(Path(DOC_DIR/"PROVENANCE_S7.txt")
-.write_text(f"Generated: {timestamp}\nΔEVAP={DELTA_EVAP}")
-)
+mix_csv = OUT / "Supplementary_Table_S8_d18O_linear_mixing_model.csv"
+mix_df.to_csv(mix_csv, index=False)
