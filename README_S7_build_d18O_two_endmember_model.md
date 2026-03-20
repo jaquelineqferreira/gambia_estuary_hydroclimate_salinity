@@ -1,5 +1,3 @@
-S7_build_d18O_two_endmember_model.py
-
 Compute evaporation enrichment and a δ18O two-endmember mixing model, details in Supplementary Section S7 and main paper.
 
 Rationale:
