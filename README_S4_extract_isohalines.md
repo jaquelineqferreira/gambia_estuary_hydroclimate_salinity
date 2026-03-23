@@ -24,12 +24,12 @@ CSV columns: distance_from_mouth_km; salinity_psu_smoothed.
 Outputy:
 
 - CSV file containing intrusion distances for all thresholds.
-- 
+
 Requirements:
 numpy
 pandas
 
 Notes:
-- Profiles are assumed to be ordered along the estuarine thalweg from the mouth upstream, but the script automatically sorts the distances if necessary.
+- Profiles are assumed to be ordered along the estuarine thalweg from the mouth upstream.
 - Missing values (`NaN`) are automatically excluded from calculations.
 - If a threshold is never reached within a profile, the corresponding intrusion distance is returned as NaN.
