@@ -1,21 +1,20 @@
 Code and workflow for hydroclimatic variability and salinity analysis in the Gambia Estuary
 
-STEP 2: File: S2_make_salintiy_rasters.py
+S2_make_salintiy_rasters.py
 
-Summary: 1D interpolation of salinity along the thalweg using the projected distances. Assignment of interpolated values to a 2D raster grid constrained to a water-domain mask derived from the river polygon. 
+1D interpolation of salinity along the thalweg using the projected distances. Assignment of interpolated values to a 2D raster grid constrained to a water-domain mask derived from the river polygon. 
 
 Resulting rasters represent salintiy gradient along the river while maintaining spatial constrants of the river channel geometry. 
 
 Required input data: 
 1. Thalweg geometry: see README_S1_thalweg_extract.md (UTM Zone 28N)
 2. Water domains mask: polygon representing the river channel mask derived from GRWL river polygon
-3. CSV files cointaining salinity measuraments (columns: Point_ID, Latitude, Longitude, Month, Year, Salinity_PSU
+3. CSV files cointaining salinity measuraments (columns: Point_ID, Latitude, Longitude, Month, Year, Salinity_PSU)
 
 Outuputs:
 - UTM projected salinity raster .tif
 - WGS84 final salinity raster .tif
-- Figures preview
-
+  
 Rationale:
 1. Load thalweg geometry and water-domain mask
 2. Generate a raster grid over the water domain extent
