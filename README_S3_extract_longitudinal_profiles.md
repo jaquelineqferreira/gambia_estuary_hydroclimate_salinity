@@ -6,7 +6,7 @@ Inputs:
 - thalweg .gpkg
 - rasters .tif
 
-Outuput:
+Output:
 - raw longitudinal salinity profiles (profile_YYYY_MM_raw.csv)
 - Gaussian-smoothed longitudinal salinity profile (profile_YYYY_MM_smoothed.csv)
 - station distances from the estuary mouth (stations_distance_from_mouth.csv)
