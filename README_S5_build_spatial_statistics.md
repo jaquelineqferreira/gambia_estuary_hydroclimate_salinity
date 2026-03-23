@@ -1,12 +1,7 @@
 Compute spatial salinity statistics from GeoTIFF rasters.
 
-
 Inputs:
-Directory containing salinity rasters:
-
-```
-.../S5_spatial_statistics/inputs/rasters/
-```
+Directory containing salinity rasters
 
 Requirements:
 
@@ -27,8 +22,7 @@ statistics/
    Supplementary_Table_S3_spatial_salinity_statistics.csv
 
 Rationale:
-For each raster:
-
+For each raster process
 - Min
 - Max
 - Mean
