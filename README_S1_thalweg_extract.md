@@ -1,10 +1,8 @@
 # gambia_estuary_hydroclimate_salinity
 Code and workflow for hydroclimatic variability and salinity analysis in the Gambia Estuary
 
-STEP 1: 
-File: S1_thalweg_extract.py
+S1_thalweg_extract.py
 
-Summary:
 Thalweg extraction from river polygons using skeletonization.
 
 This script extracts the thalweg (approximate river centerline) from a
@@ -39,11 +37,4 @@ shapely
 rasterio
 scikit-image
 matplotlib
-
-Typical usage:
-python extract_thalweg.py \
---in data/river_polygon.gpkg \
---layer river_polygon \
---out_gpkg results/thalweg.gpkg \
---out_geojson results/thalweg.geojson
 
